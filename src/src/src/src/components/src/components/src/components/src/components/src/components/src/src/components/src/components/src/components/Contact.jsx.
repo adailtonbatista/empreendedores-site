@@ -1,0 +1,165 @@
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSelectChange = (value) => {
+    setFormData(prev => ({ ...prev, subject: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Mensagem enviada!\nNome: ${formData.name}\nEmail: ${formData.email}\nAssunto: ${formData.subject}\nMensagem: ${formData.message}`);
+    // Aqui você integraria com um serviço de envio de e-mail ou backend
+    setFormData({ name: '', email: '', subject: '', message: '' }); // Limpa o formulário
+  };
+
+  return (
+    <div className="container mx-auto px-6 py-12">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">Entre em Contato</h1>
+      <p className="text-lg text-center text-gray-600 mb-10">
+        Estamos aqui para ajudar! Entre em contato conosco através dos canais abaixo ou envie uma mensagem usando o formulário.
+      </p>
+
+      {/* Contact Info Section */}
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center mb-12">
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <img src="https://via.placeholder.com/60" alt="Email Icon" className="mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">E-mail</h3>
+          <p className="text-purple-600 mb-1">contato@conectaempreendedores.com</p>
+          <p className="text-gray-500 text-sm">Resposta em até 24 horas</p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <img src="https://via.placeholder.com/60" alt="Phone Icon" className="mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">Telefone</h3>
+          <p className="text-purple-600 mb-1">(11 ) 9999-9999</p>
+          <p className="text-gray-500 text-sm">Seg a Sex, 9h às 18h</p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <img src="https://via.placeholder.com/60" alt="Location Icon" className="mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">Localização</h3>
+          <p className="text-purple-600 mb-1">São Paulo, SP</p>
+          <p className="text-gray-500 text-sm">Atendimento online e presencial</p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <img src="https://via.placeholder.com/60" alt="Hours Icon" className="mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">Horário de Atendimento</h3>
+          <p className="text-purple-600 mb-1">Segunda a Sexta</p>
+          <p className="text-gray-500 text-sm">9:00 às 18:00</p>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-6">Envie uma Mensagem</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+              <Input type="text" id="name" placeholder="Seu nome completo" value={formData.name} onChange={handleChange} required />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+              <Input type="email" id="email" placeholder="seu@email.com" value={formData.email} onChange={handleChange} required />
+            </div>
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
+              <Select onValueChange={handleSelectChange} value={formData.subject}>
+                <SelectTrigger id="subject">
+                  <SelectValue placeholder="Selecione um assunto" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cadastro como Empreendedor">Cadastro como Empreendedor</SelectItem>
+                  <SelectItem value="Suporte Técnico">Suporte Técnico</SelectItem>
+                  <SelectItem value="Parcerias">Parcerias</SelectItem>
+                  <SelectItem value="Feedback">Feedback</SelectItem>
+                  <SelectItem value="Outros">Outros</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+              <Textarea id="message" placeholder="Descreva sua dúvida ou solicitação..." value={formData.message} onChange={handleChange} rows="5" required />
+            </div>
+            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-md">
+              Enviar Mensagem
+            </Button>
+          </form>
+        </div>
+
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-6">Outras Formas de Contato</h2>
+          <div className="space-y-6">
+            <div className="flex items-center space-x-4">
+              <img src="https://via.placeholder.com/40" alt="Chat Icon" className="rounded-full" />
+              <div>
+                <h3 className="text-xl font-semibold text-gray-700">Chat Online</h3>
+                <p className="text-gray-600 mb-2">Converse conosco em tempo real</p>
+                <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">Iniciar Chat</Button>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <img src="https://via.placeholder.com/40" alt="FAQ Icon" className="rounded-full" />
+              <div>
+                <h3 className="text-xl font-semibold text-gray-700">Central de Ajuda</h3>
+                <p className="text-gray-600 mb-2">Encontre respostas para dúvidas comuns</p>
+                <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">Acessar FAQ</Button>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <img src="https://via.placeholder.com/40" alt="Support Icon" className="rounded-full" />
+              <div>
+                <h3 className="text-xl font-semibold text-gray-700">Suporte Técnico</h3>
+                <p className="text-gray-600 mb-2">Ajuda com problemas técnicos</p>
+                <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">Solicitar Suporte</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="mb-12">
+        <h2 className="text-3xl font-semibold text-gray-700 mb-6 text-center">Perguntas Frequentes</h2>
+        <div className="space-y-4">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Como posso me cadastrar como empreendedor?</h3>
+            <p className="text-gray-600">Entre em contato conosco através do formulário ou e-mail. Nossa equipe irá avaliar seu perfil e orientar sobre o processo de cadastro.</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Os conteúdos gratuitos realmente são gratuitos?</h3>
+            <p className="text-gray-600">Sim! Oferecemos diversos artigos, ebooks e vídeos totalmente gratuitos. Apenas é necessário fazer um cadastro simples em nossa newsletter.</p>
+          </div>
+          <div className="text-center mt-6">
+            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">Ver Todas as Perguntas Frequentes</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="bg-white p-8 rounded-lg shadow-md text-center">
+        <h2 className="text-3xl font-semibold text-gray-700 mb-6">Nossa Localização</h2>
+        <p className="text-lg text-gray-600 mb-4">Estamos localizados em São Paulo, mas atendemos clientes de todo o Brasil através de nossa plataforma online.</p>
+        <div className="w-full h-64 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+          Mapa interativo seria exibido aqui
+        </div>
+      </section>
+    </div>
+   );
+};
+
+export default Contact;
